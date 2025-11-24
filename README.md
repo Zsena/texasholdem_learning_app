@@ -1,157 +1,168 @@
-# Texas Hold’em WebApp – DUE UNIVERSITY
+# Texas Hold'em Poker Learning Web App - DUE University
 
-A simple educational Texas Hold’em application built with **Python**, **SQLite**, and a minimal **web interface**.  
-The goal of this project is to demonstrate **database usage**, **object-oriented design**, **UML modeling**, and **basic hand evaluation logic**.
-
-Licence: MIT 
-Author: Tamás Zsanett - Q4PTDR
+An educational Texas Hold'em poker web application built with **Django** and **SQLite**. The app lets you play a simple heads-up hand against a computer opponent, shows the best hand evaluation, and stores each result so you can review past hands. The UI is in Hungarian.
 
 ---
 
-## 📘 1. UML Class Diagram
-```
-+-----------------------+
-| ZTDeck |
-+-----------------------+
-| cards: list |
-+-----------------------+
-| _zt_generate_deck() |
-| shuffle() |
-| draw_card() |
-+-----------------------+
-
-+-----------------------+
-| ZTHandEvaluator |
-+-----------------------+
-| - ranks |
-| - suits |
-+-----------------------+
-| evaluate_hand() |
-| detect_pairs() |
-| detect_flush() |
-| detect_straight() |
-+-----------------------+
-
-+-----------------------+
-| Game |
-+-----------------------+
-| id |
-| player_cards |
-| flop |
-| turn |
-| river |
-| best_hand |
-| hand_rank |
-| created_at |
-| evaluation_log |
-+-----------------------+
-```
-
-### **Diagram Explanation**
-
-- **ZTDeck** → Generates a 52-card deck and handles drawing cards  
-- **ZTHandEvaluator** → Evaluates the player’s best Texas Hold’em hand  
-- **Game** → Stores the round result in the SQLite database  
+## Features
+- Step-by-step play flow: preflop -> flop -> turn -> river -> showdown.
+- Automated 7-card hand evaluation for both player and opponent with named hand descriptions.
+- Game history saved to SQLite; browse previous hands.
+- Rules page for quick reference.
+- Django admin available for inspecting stored games.
 
 ---
 
-## 2. Database Design
-
-The application stores every played game round in a single table:
-
-### **Table: Game**
-
-| Field            | Type       | Description                               |
-|------------------|------------|-------------------------------------------|
-| `id`             | PK         | Auto-incremented ID                       |
-| `player_cards`   | Text       | Example: `"Ah, Ks"`                       |
-| `flop`           | Text       | Example: `"2c, 7h, 9d"`                   |
-| `turn`           | Text       | Example: `"Jh"`                            |
-| `river`          | Text       | Example: `"5s"`                            |
-| `best_hand`      | Text       | Example: `"Pair of Aces"`                 |
-| `hand_rank`      | Integer    | Numerical strength of the hand            |
-| `created_at`     | DateTime   | Automatic timestamp                       |
-| `evaluation_log` | Text       | Optional calculation log                  |
+## Stack
+- Python 3.14
+- Django (installed via `pip`)
+- SQLite (default Django database)
+- Tailwind CDN for styling in templates
 
 ---
 
-## 🎮 3. USE CASE Diagram
+## UML (core classes)
 ```
-    +-----------------------+
-    |        User           |
-    +-----------------------+
-             / \
-              |
-      ----------------
-      |   Use Cases  |
-      ----------------
-        | Start Game
-        | Deal Cards
-        | Show Flop
-        | Show Turn
-        | Show River
-        | Evaluate Hand
-        | Save Game
-        | View History
++-----------------------------+
+|           ZTDeck            |
++-----------------------------+
+| cards: list                 |
++-----------------------------+
+| _zt_generate_deck()         |
+| zt_draw(n)                  |
+| zt_deal_preflop()           |
+| zt_deal_flop()              |
+| zt_deal_turn()              |
+| zt_deal_river()             |
++-----------------------------+
+
++-----------------------------+
+|       ZTHandEvaluator       |
++-----------------------------+
+| cards7: list                |
+| RANK_ORDER                  |
++-----------------------------+
+| _rank_val(card)             |
+| _is_straight(five)          |
+| _hand_rank(five)            |
+| evaluate()                  |
++-----------------------------+
+
++-----------------------------+
+|            Game             |
++-----------------------------+
+| id                          |
+| player_cards                |
+| opponent_cards              |
+| flop                        |
+| turn                        |
+| river                       |
+| best_hand                   |
+| outcome                     |
+| hand_rank                   |
+| evaluation_log              |
+| created_at                  |
++-----------------------------+
 ```
-
-### **Use-Case Logic**
-
-- **Start Game** → Creates a new deck and deals two cards  
-- **Deal Cards** → Flop → Turn → River  
-- **Evaluate Hand** → Determines the best 5-card hand  
-- **Save Game** → Writes the record to the DB  
-- **View History** → Loads game history from SQLite  
 
 ---
 
-## 🚀 4. Installation & Running
-
-### 1. Create virtual environment
-
+## Use Case Diagram
 ```
-python -m venv venv 
+    +-------+
+    | User  |
+    +---+---+
+        |
+        v
+ +--------------+
+ | Start Game   |
+ +--------------+
+        |
+        v
+ +--------------+    +---------------+
+ | Deal Cards   +--> | Evaluate Hand |
+ +--------------+    +---------------+
+        |
+        v
+ +--------------+
+ | Save Game    |
+ +--------------+
+        |
+        v
+ +--------------+
+ | View History |
+ +--------------+
 ```
-### 2. Activate:
 
-- Windows:
+### Use-Case Logic
+- **Start Game**: create a new deck and deal two hole cards to each side.
+- **Deal Cards**: reveal community cards street by street (flop, turn, river).
+- **Evaluate Hand**: compute the best 5-card hand for player and opponent from 7 cards.
+- **Save Game**: persist the hand, outcome, and metadata to SQLite.
+- **View History**: list stored games from the `Game` table.
 
-```venv\Scripts\activate```
+---
 
+## Database Design
 
-- Linux/Mac:
+### Table: Game (SQLite via Django ORM)
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | PK (auto) | Primary key |
+| `player_cards` | CharField(50) | Player hole cards (e.g., `Ah,Ks`) |
+| `opponent_cards` | CharField(50) | Opponent hole cards |
+| `flop` | CharField(50) | Flop cards |
+| `turn` | CharField(10) | Turn card |
+| `river` | CharField(10) | River card |
+| `best_hand` | CharField(50) | Best hand description for the player |
+| `hand_rank` | IntegerField | Numeric score for ranking |
+| `outcome` | CharField(50) | Result text |
+| `evaluation_log` | TextField | Optional notes |
+| `created_at` | DateTime | Auto timestamp |
 
-```source venv/bin/activate```
+---
 
-### 3. Install dependencies
+## Project Layout
+- `manage.py` - Django entrypoint.
+- `holdem/` - project settings and URL routing.
+- `game/` - domain logic (`zt_poker.py`), views, models, and templates.
+- `game/templates/` - pages for home, step-by-step play, rules, history, and results.
+- `db.sqlite3` - local SQLite database (created after running migrations).
 
-SQLite comes built-in with Python.
+---
 
-### 4. Run the app
-```python manage.py runserver```
+## Game Flow
+1. Home (`/`) links to start a new hand.
+2. `/game/play` initializes the session, deals player/opponent hole cards, and moves to `/game/step`.
+3. `/game/step` advances through phases (preflop -> flop -> turn -> river). On showdown, both 7-card sets are evaluated and the result is stored in the `Game` table.
+4. `/game/history` lists stored hands; `/game/rules` shows poker rules; `/admin` exposes Django admin (after creating a superuser).
 
-Starting development server at ```http://127.0.0.1:8000/```
+---
 
-### 5. Superuser 
+## Setup & Run
+1. Create a virtual environment  
+   `python -m venv venv`
+2. Activate it  
+   - Windows: `venv\Scripts\activate`  
+   - macOS/Linux: `source venv/bin/activate`
+3. Install Django  
+   `pip install django`
+4. Migrations  
+   - `python manage.py makemigrations`  
+   - `python manage.py migrate`
+5. Superuser  
+   - Create: `python manage.py createsuperuser`  
+   - Or change password: `python manage.py changepassword admin`
+   - Admin UI: `/admin` (example credentials: user `zsena`, password `123456`)
+6. Start the dev server  
+   `python manage.py runserver`
+7. Open `http://127.0.0.1:8000/` to use the app; visit `/admin` for admin access.
 
-```python manage.py createsuperuser```
+---
 
-or 
-
-```python manage.py changepassword admin```
-
-
-admin: 
-
- /admin
-
- - user: zsena
- - password: 123456
-
-
-### 5. migrations
-
-- ```python manage.py makemigrations```
-- ```python manage.py migrate```
-
-
+## Notes
+- All game text is Hungarian. Adjust copy in `game/templates/` if you need English UI.
+- Hand evaluation and dealing logic live in `game/zt_poker.py`.
+- Game history persists to the local `db.sqlite3`; remove the file to clear data.
+- *Licence - MIT*
+- **Author: Tamás Zsanett - Q4PTDR**
