@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Texas Hold’em Poker{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#a855f7',
+                        secondary: '#009688',
+                        darkbg: '#0c0c0c',
+                        card: '#1c1c1c',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen bg-darkbg text-white p-6">
+    <div class="container mx-auto max-w-5xl">
+        {% block page_content %}{% endblock %}
+    </div>
+</body>
+
+</html>

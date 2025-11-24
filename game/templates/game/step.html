@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1 class="text-3xl font-bold mb-6 text-primary">
+    Texas Hold’em – {{ phase_title }}
+</h1>
+
+<div class="bg-card p-4 rounded-lg mb-4 shadow-md">
+    <p class="font-semibold mb-2">Kezedben:</p>
+    <div class="flex gap-2">
+        {% for c in player_cards %}
+        <span class="inline-flex items-center justify-center w-[8rem] h-[11rem] rounded-xl border border-gray-700 bg-zinc-800 text-7xl font-bold
+                {% if c.is_red %}text-red-400{% else %}text-white{% endif %}">
+            {{ c.text }}
+        </span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="bg-card p-4 rounded-lg mb-4 shadow-md">
+    <p class="font-semibold mb-2">Gép keze:</p>
+    <div class="flex gap-2">
+        {% for _ in opponent_back %}
+        <span
+            class="inline-flex items-center justify-center w-[8rem] h-[11rem] rounded-xl border border-gray-700 bg-zinc-800 text-7xl p-2 text-gray-400">
+            🂠
+        </span>
+        {% endfor %}
+    </div>
+</div>
+
+{% if table_cards %}
+<div class="p-16 shadow-2xl mt-2 flex gap-4 bg-emerald-800 justify-center items-center min-h-[400px] rounded-[50%]">
+    <p class="font-semibold mb-2">Asztal:</p>
+    <div class="flex gap-2">
+        {% for c in table_cards %}
+        <span class="inline-flex items-center justify-center w-[8rem] h-[11rem] rounded-xl border border-gray-700 bg-zinc-800 text-7xl p-2 font-bold
+                {% if c.is_red %}text-red-400{% else %}text-white{% endif %}">
+            {{ c.text }}
+        </span>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<a href="/game/step/"
+    class="block mt-6 px-4 py-3 bg-primary hover:bg-purple-600 transition rounded-xl text-center font-semibold">
+    Tovább
+</a>
+
+{% endblock %}

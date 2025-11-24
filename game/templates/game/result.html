@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1 class="text-3xl font-bold mb-6 text-primary">Leosztás vége</h1>
+<p class="text-xl mb-4">{{ outcome }}</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="bg-card p-4 rounded-lg shadow-md">
+        <p class="font-semibold mb-1">Te lapjaid:</p>
+        <div class="flex gap-2 mb-2">
+
+            {% for c in player_cards %}
+            <div class="
+                w-[8rem] h-[10rem]
+                flex items-center justify-center
+                rounded-xl bg-zinc-800 text-7xl p-2 font-bold
+                {% if c.is_red %}text-red-400{% else %}text-white{% endif %}
+
+                {% if winner == 'player' and c.raw in player_best %}
+                    border-4 border-green-400
+                {% elif winner == 'player' %}
+                    border-gray-600
+                {% else %}
+                    border-gray-600
+                {% endif %}
+            ">
+                {{ c.text }}
+            </div>
+            {% endfor %}
+
+        </div>
+        <p class="text-sm text-gray-300">{{ player_desc }}</p>
+    </div>
+
+    <div class="bg-card p-4 rounded-lg shadow-md">
+        <p class="font-semibold mb-1">Gép lapjai:</p>
+        <div class="flex gap-2 mb-2">
+
+            {% for c in opponent_cards %}
+            <div class="
+                w-[8rem] h-[10rem]
+                flex items-center justify-center
+                rounded-xl bg-zinc-800 text-7xl p-2 font-bold
+                {% if c.is_red %}text-red-400{% else %}text-white{% endif %}
+
+                {% if winner == 'opponent' and c.raw in opponent_best %}
+                    border-4 border-red-400
+                {% else %}
+                    border-gray-600
+                {% endif %}
+            ">
+                {{ c.text }}
+            </div>
+            {% endfor %}
+
+        </div>
+        <p class="text-sm text-gray-300">{{ opponent_desc }}</p>
+    </div>
+
+</div>
+
+<h2 class="text-xl font-bold mt-8 text-primary">Asztal</h2>
+
+<div class="p-16 shadow-2xl mt-2 flex gap-4 bg-emerald-800 justify-center items-center min-h-[400px] rounded-[50%]">
+
+    {% for c in table_cards %}
+    <div class="
+        w-[8rem] h-[10rem]
+        flex items-center justify-center
+        rounded-xl bg-zinc-800 text-7xl p-2 font-bold
+        {% if c.is_red %}text-red-400{% else %}text-white{% endif %}
+
+        {% if winner == 'player' and c.raw in player_best %}
+            border-4 border-green-400 translate-y-5 scale-[1.04]
+        {% elif winner == 'opponent' and c.raw in opponent_best %}
+            border-4 border-red-400 translate-y-5 scale-[1.04]
+        {% else %}
+            border-gray-600
+        {% endif %}
+    ">
+        {{ c.text }}
+    </div>
+    {% endfor %}
+
+</div>
+
+<div class="mt-8 flex gap-4">
+    <a href="/game/play/" class="px-4 py-3 bg-primary rounded-xl hover:bg-purple-600 transition font-semibold">
+        Új játék
+    </a>
+    <a href="/game/history/" class="px-4 py-3 bg-gray-600 rounded-xl hover:bg-gray-500 transition font-semibold">
+        Történet
+    </a>
+    <a href="/" class="px-4 py-3 bg-secondary rounded-xl hover:bg-emerald-400 transition font-semibold">
+        Vissza a főoldalra
+    </a>
+</div>
+
+{% endblock %}

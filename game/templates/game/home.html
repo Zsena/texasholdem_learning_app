@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1 class="text-4xl font-bold text-secondary mb-6 mx-auto text-center pt-20">Texas Hold’em - Tanulj velem!</h1>
+
+<p class="text-lg text-gray-300 max-w-2xl mx-auto">
+    Üdv a saját Texas Hold’em póker tanulásra fókuszált appban!  
+    Játszhatsz a gép ellen, megnézheted a korábbi leosztásaidat,
+    és megtanulhatod a szabályokat is.
+</p>
+
+<div class="mt-10 flex flex-col gap-4 w-full max-w-md mx-auto">
+
+    <a href="/game/play/"0
+       class="px-6 py-4 bg-secondary text-center rounded-xl text-lg font-semibold hover:bg-emerald-400 transition">
+       Játék indítása
+    </a>
+
+    <a href="/game/rules/"
+       class="px-6 py-4 bg-gray-700 text-center rounded-xl text-lg font-semibold hover:bg-gray-600 transition">
+       Játékszabályzat
+    </a>
+
+    <a href="/game/history/"
+       class="px-6 py-4 bg-gray-800 text-center rounded-xl text-lg font-semibold hover:bg-gray-700 transition">
+       Korábbi leosztások
+    </a>
+</div>
+
+{% endblock %}

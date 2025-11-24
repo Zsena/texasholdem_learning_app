@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1 class="text-3xl font-bold mb-6 text-primary">Játéktörténet</h1>
+
+<ul class="space-y-3">
+    {% for g in games %}
+    <li class="bg-card p-4 rounded shadow">
+        <span class="text-sm opacity-70">{{ g.created_at }}</span><br>
+        <strong>{{ g.player_cards }}</strong>
+        <span class="opacity-70">|</span> {{ g.flop }}
+        <span class="opacity-70">|</span> {{ g.turn }}
+        <span class="opacity-70">|</span> {{ g.river }}
+        → <span class="text-primary">{{ g.best_hand }}</span>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="/game/play/" class="block mt-6 px-4 py-2 bg-primary rounded text-center hover:bg-purple-600 transition">
+    Játék újra
+</a>
+
+{% endblock %}

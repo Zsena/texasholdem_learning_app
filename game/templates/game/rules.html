@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1 class="text-3xl font-bold text-primary mb-6">Játékszabályzat</h1>
+
+<p class="text-lg text-gray-300 mb-8 max-w-3xl">
+    A Texas Hold’em a világ legnépszerűbb pókerjátéka.
+    Itt megtalálod a szabályokat és a kéz-erősségek rangsorát.
+</p>
+
+<h2 class="text-2xl font-bold text-primary mt-8 mb-4">Alapszabályok</h2>
+
+<ul class="list-disc ml-6 text-gray-300 space-y-2">
+    <li>Minden játékos 2 zárt lapot kap.</li>
+    <li>Az asztalra összesen 5 közös lap kerül: flop (3), turn (1), river (1).</li>
+    <li>A játékosok a saját 2 lapjuk és az 5 közös lapból választják ki a legjobb 5 lapos kezet.</li>
+    <li>A legerősebb 5 lapot összeállító játékos nyer.</li>
+</ul>
+
+<h2 class="text-2xl font-bold text-primary mt-10 mb-4">Lapok erőssége</h2>
+
+<div class="space-y-4 text-gray-200">
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">1. Royal Flush 👑</h3>
+        <p>10-J-Q-K-A azonos színből.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">2. Színsor (Straight Flush)</h3>
+        <p>Öt egymást követő lap, azonos színből.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">3. Póker (Four of a Kind)</h3>
+        <p>Négy azonos értékű lap.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">4. Full House</h3>
+        <p>Három azonos + egy pár.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">5. Flush</h3>
+        <p>Öt tetszőleges lap azonos színből.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">6. Sor (Straight)</h3>
+        <p>Öt egymást követő lap, bármilyen színből.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">7. Drill (Three of a Kind)</h3>
+        <p>Három azonos értékű lap.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">8. Két pár</h3>
+        <p>Két különböző pár.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">9. Egy pár</h3>
+        <p>Két azonos értékű lap.</p>
+    </div>
+
+    <div>
+        <h3 class="font-semibold text-xl text-purple-300">10. Magas lap</h3>
+        <p>Amikor nincs jobb kombináció — az ász a legerősebb.</p>
+    </div>
+</div>
+
+<div class="mt-12">
+    <a href="/" class="px-4 py-3 bg-primary rounded-xl hover:bg-purple-600 transition font-semibold">
+        Vissza a főoldalra
+    </a>
+</div>
+
+{% endblock %}
