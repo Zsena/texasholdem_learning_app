@@ -147,6 +147,8 @@ An educational Texas Hold'em poker web application built with **Django** and **S
    - macOS/Linux: `source venv/bin/activate`
 3. Install Django  
    `pip install django`
+- or Install dependencies: 
+   `pip install -r requirements.txt`
 4. Migrations  
    - `python manage.py makemigrations`  
    - `python manage.py migrate`
