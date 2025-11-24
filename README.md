@@ -3,6 +3,9 @@
 A simple educational Texas Hold’em application built with **Python**, **SQLite**, and a minimal **web interface**.  
 The goal of this project is to demonstrate **database usage**, **object-oriented design**, **UML modeling**, and **basic hand evaluation logic**.
 
+Licence: MIT 
+Author: Tamás Zsanett - Q4PTDR
+
 ---
 
 ## 📘 1. UML Class Diagram
